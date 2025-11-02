@@ -2,7 +2,7 @@ import express from 'express';
 import {ENV} from './config/env.js';
 import cors from "cors";
 import {serve} from "inngest/express";
-import { inngest } from './config/inngest.js';
+import { inngest, functions } from './config/inngest.js';
 
 const app = express();
 
@@ -26,10 +26,6 @@ app.use((err, req, res, next) => {
     }
     res.status(500).json({ message: err.message });
     next();
-})
-
-app.listen(ENV.PORT, () => {
-    console.log("API IS READY at PORT:", ENV.PORT);
 })
 
 export default app;
