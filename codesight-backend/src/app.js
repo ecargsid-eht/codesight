@@ -31,3 +31,5 @@ app.use((err, req, res, next) => {
 app.listen(ENV.PORT, () => {
     console.log("API IS READY at PORT:", ENV.PORT);
 })
+
+export default app;
