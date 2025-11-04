@@ -1,5 +1,5 @@
-export const getDifficultyBadge = (diff:string) => {
-    switch(diff.toLowerCase()){
+export const getDifficultyBadge = (diff:string | undefined) => {
+    switch(diff?.toLowerCase()){
         case 'easy':
             return 'badge-success';
         case 'medium':
