@@ -4,6 +4,9 @@ import { createSession, endSession, getActiveSessions, getPastSessions, getSessi
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    return res.json({msg:"PAHUCH GYA BEY"})
+})
 router.post("/", protectRoute,createSession);
 router.get("/active", protectRoute, getActiveSessions);
 router.get("/completed", protectRoute, getPastSessions);

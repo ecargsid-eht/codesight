@@ -11,17 +11,18 @@ import executeRoute from './routes/piston.routes.js';
 const app = express();
 
 app.use(express.json());
+// app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
+app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
 app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
 //credentials:true => server allows a browser to include cookies on request.
-app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
 
 app.use("/api/inngest", serve({client:inngest, functions}))
 app.use("/api/chat", chatRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/execute", executeRoute);
-app.get("/",(req,res) => {
-    res.json({msg:"API HIT SUCCESSFULLY."});
-})
+// app.get("/",(req,res) => {
+//     res.json({msg:"API HIT NON_SUCCESS."});
+// })
 
 // When you pass an array of middlewares to Express, it flattens and automatically executes them sequentially.
 app.use("/video-calls",protectRoute,(req, res) => {
