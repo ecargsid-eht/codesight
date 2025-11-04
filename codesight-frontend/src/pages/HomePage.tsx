@@ -42,6 +42,10 @@ function HomePage() {
               <ArrowRightIcon className="size-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </SignInButton>
+
+          <Link to="/problems">
+            GET TO PROBLEMS
+          </Link>
         </div>
       </nav>
 

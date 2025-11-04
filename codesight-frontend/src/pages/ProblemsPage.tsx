@@ -6,11 +6,9 @@ import { getDifficultyBadge } from "../lib/utils";
 
 const ProblemsPage = () => {
   const problems = Object.values(PROBLEMS);
-
   const easyCount = problems.filter(pr => pr.difficulty.toLowerCase() === 'easy').length;
   const midCount = problems.filter(pr => pr.difficulty.toLowerCase() === 'medium').length;
   const hardCount = problems.filter(pr => pr.difficulty.toLowerCase() === 'hard').length;
-  console.log(problems)
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar />
