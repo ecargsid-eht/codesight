@@ -98,7 +98,7 @@ function ActiveSessions({ sessions, isLoading, isUserInSession }:{sessions:Sessi
                     <button className="btn btn-disabled btn-sm">Full</button>
                   ) : (
                     <Link
-                      to={`/session/${session._id}`}
+                      to={`/sessions/${session._id}`}
                       className="btn btn-primary btn-sm gap-2"
                     >
                       {isUserInSession(session) ? "Rejoin" : "Join"}

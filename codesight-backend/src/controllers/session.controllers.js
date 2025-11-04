@@ -57,6 +57,7 @@ export async function getPastSessions(req, res) {
         return res.status(200).json({ sessions });
     }
     catch (e) {
+        console.log(e);
         return res.status(500).json({ msg: "Internal Server Error" });
     }
 }
@@ -111,7 +112,7 @@ export async function endSession(req, res) {
         if(session.host.toString() !== userId.toString()){
             return res.status(403).json({msg:"Only the host can end the session."});
         }
-        if(session.status !== "completed"){
+        if(session.status === "completed"){
             return res.status(400).json({ msg: "Session is already ended." });
         }
         session.status = "completed";
