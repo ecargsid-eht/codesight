@@ -4,18 +4,22 @@ import {StreamChat} from 'stream-chat';
 import toast from "react-hot-toast";
 import { initializeStreamClient, disconnectStreamClient } from "../lib/stream";
 import { sessionApi } from "../api/sessions";
-import type { StreamVideoClient } from "@stream-io/video-react-sdk";
+import { Call, useConnectedUser, type StreamVideoClient } from "@stream-io/video-react-sdk";
+import type { Session } from "../interfaces";
+import type { Channel as ChannelProp } from "stream-chat";
 
 
-function useStreamClient(session, loadingSession: boolean, isHost: boolean, isParticipant: boolean) {
+
+function useStreamClient(session: Session, loadingSession: boolean, isHost: boolean, isParticipant: boolean) {
     const [streamClient, setStreamClient] = useState<StreamVideoClient | null>(null);
     const [call, setCall] = useState<any>(null);
     const [chatClient, setChatClient] = useState<StreamChat | null>(null);
-    const [channel, setChannel] = useState<any>(null);
+    const [channel, setChannel] = useState<ChannelProp | null>(null);
     const [isInitializingCall, setIsInitializingCall] = useState<boolean>(false);
-
+    const connectedUser = useConnectedUser();
+    const connectedUserId = connectedUser?.id || null;
     useEffect(() => {
-        let videoCall = null;
+        let videoCall:Call | null = null;
         let chatClientInstance: StreamChat | null = null;
 
         const initCall = async () => {
@@ -25,11 +29,15 @@ function useStreamClient(session, loadingSession: boolean, isHost: boolean, isPa
             try{
                 const {token, userId, userName, userImage} = await sessionApi.getStreamToken();
 
-                const client = await initializeStreamClient({
+                const client = await initializeStreamClient(
+                  {
                     id: userId,
                     name: userName,
-                    image: userImage
-                }, token);
+                    image: userImage,
+                  },
+                  token,
+                  connectedUserId as string
+                );
 
                 setStreamClient(client);
                 videoCall = client.call("default",session.callId);

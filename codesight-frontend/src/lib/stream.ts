@@ -4,10 +4,10 @@ const apiKey = import.meta.env.VITE_STREAM_API_KEY || '';
 let client:StreamVideoClient | null = null;
 
 
-export const initializeStreamClient = async (user:UserRequest, token:string) => {
+export const initializeStreamClient = async (user:UserRequest, token:string, connectedUserId?: string) => {
   // if client exists with same user instead of creating again return it
 
-  if (client && client?.user?.id === user.id) return client;
+  if (client && connectedUserId === user.id) return client;
 
   if (client) {
     await disconnectStreamClient();
