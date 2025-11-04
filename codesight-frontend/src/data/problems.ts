@@ -1,4 +1,28 @@
-export const PROBLEMS = {
+export interface Problem {
+  id: string;
+  title: string;
+  difficulty: string;
+  category: string;
+  description: {
+    text: string;
+    notes: string[];
+  };
+  examples: {
+    input: string;
+    output: string;
+    explanation?: string;
+  }[];
+  constraints: string[];
+  starterCode: {
+    [key: string]: string;
+  };
+  expectedOutput: {
+    [key: string]: string;
+  };
+
+}
+
+export const PROBLEMS: Record<string, Problem> = {
   "two-sum": {
     id: "two-sum",
     title: "Two Sum",
