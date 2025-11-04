@@ -7,15 +7,11 @@ import { Toaster } from 'react-hot-toast';
 // import Footer from './components/Footer';
 import ProblemPage from './pages/ProblemPage';
 import DashboardPage from './pages/DashboardPage';
-import { useEffect } from 'react';
 
 function App() {
-  const {isSignedIn}=useUser();
-  useEffect(() => {
-    if(isSignedIn){
-      <Navigate to="/problems" />
-    }
-  },[isSignedIn])
+  const { isSignedIn, isLoaded } = useUser();
+
+  if(!isLoaded) return null;
   return (
     <>
       <Routes>
