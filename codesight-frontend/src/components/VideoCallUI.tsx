@@ -73,7 +73,6 @@ function VideoCallUI({ chatClient, channel }: {chatClient: StreamChat | null, ch
           <CallControls onLeave={() => navigate("/dashboard")} />
         </div>
       </div>
-
       {/* CHAT SECTION */}
 
       {chatClient && channel && (
