@@ -160,9 +160,9 @@ const SessionPage = () => {
                         </h2>
                         <div className="space-y-3 text-base leading-relaxed">
                           <p className="text-base-content/90">
-                            {problemData.description.text}
+                            {problemData?.description.text}
                           </p>
-                          {problemData.description.notes?.map((note, idx) => (
+                          {problemData?.description.notes?.map((note, idx) => (
                             <p key={idx} className="text-base-content/90">
                               {note}
                             </p>
@@ -228,7 +228,7 @@ const SessionPage = () => {
                             Constraints
                           </h2>
                           <ul className="space-y-2 text-base-content/90">
-                            {problemData.constraints.map((constraint, idx) => (
+                            {problemData?.constraints.map((constraint, idx) => (
                               <li key={idx} className="flex gap-2">
                                 <span className="text-primary">•</span>
                                 <code className="text-sm">{constraint}</code>
