@@ -15,5 +15,5 @@ async function startServer(){
     }
 }
 
-// startServer();
+startServer();
 export default app;

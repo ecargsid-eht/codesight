@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 // app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
-app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
+app.use(cors({ origin: ENV.CLIENT_URL || "https://codesight-gqwm.vercel.app", credentials:true}));
 app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
 //credentials:true => server allows a browser to include cookies on request.
 
