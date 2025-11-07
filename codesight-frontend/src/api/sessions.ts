@@ -3,6 +3,7 @@ import axiosInstance from "../lib/axios";
 
 export const sessionApi = {
     createSession: async(data: { problem: string, difficulty: string }) => {
+        console.log('Session to ban raha hai');
         const res = await axiosInstance.post('/sessions', data);
         return res.data;
     },
