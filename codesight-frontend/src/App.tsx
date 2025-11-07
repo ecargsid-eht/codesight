@@ -12,32 +12,35 @@ import { useAuth } from '@clerk/clerk-react';
 import { setAuthToken } from "./lib/axios";
 import { useEffect } from 'react';
 
-function App() {
-  const { isSignedIn, isLoaded } = useUser();
-  const { getToken } = useAuth(); 
+function AuthTokenSetter() {
+  const { getToken } = useAuth();
 
   useEffect(() => {
-    let mounted = true;
-    if (!isSignedIn) {
-      setAuthToken(null);
-      return;
-    }
-    (async () => {
+    const setToken = async () => {
       try {
-        const token = await getToken({ template: "default" });
-        if (mounted) setAuthToken(token);
-      } catch {
-        setAuthToken(null);
+        const token = await getToken();
+        setAuthToken(token); // Set the token for all Axios requests
+        console.log(token);
+      } catch (e) {
+        console.error("Error setting auth token", e);
       }
-    })();
-    return () => {
-      mounted = false;
     };
-  }, [getToken, isSignedIn]);
+    setToken();
+  }, [getToken]); // Re-run this effect when auth state changes
+
+  return null; // This component doesn't render anything
+}
+
+
+function App() {
+  const { isSignedIn, isLoaded } = useUser();
+
+
 
   if(!isLoaded) return null;
   return (
     <>
+    <AuthTokenSetter />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={isSignedIn ? <DashboardPage /> : <Navigate to={"/"} />} />
