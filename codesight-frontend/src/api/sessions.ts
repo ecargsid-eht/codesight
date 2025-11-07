@@ -3,13 +3,13 @@ import axiosInstance from "../lib/axios";
 
 export const sessionApi = {
     createSession: async(data: { problem: string, difficulty: string }) => {
-        console.log('Session to ban raha hai');
+        console.log('Session to ban raha');
         const res = await axiosInstance.post('/sessions', data);
         return res.data;
     },
     getActiveSessions: async() => {
         console.log("Fetching active sessions");
-        const res = await axiosInstance.get('/sessions/active');
+        const res = await axiosInstance.get('/sessions/active')
         console.log(res);
         return res.data;
     },
