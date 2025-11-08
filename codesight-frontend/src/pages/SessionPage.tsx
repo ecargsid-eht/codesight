@@ -13,6 +13,8 @@ import OutputPanel from "../components/OutputPanel";
 import useStreamClient from "../hooks/useStreamClient";
 import { StreamCall, StreamVideo } from "@stream-io/video-react-sdk";
 import VideoCallUI from "../components/VideoCallUI";
+import confetti from "canvas-confetti";
+import toast from "react-hot-toast";
 
 const SessionPage = () => {
     const navigate = useNavigate();
@@ -70,6 +72,47 @@ const SessionPage = () => {
       setOutput(null);
     };
 
+      const normalizeOutput = (output: string) => {
+        // normalize output for comparison (trim whitespace, handle different spacing)
+        return output
+          .trim()
+          .split("\n")
+          .map((line) =>
+            line
+              .trim()
+              // remove spaces after [ and before ]
+              .replace(/\[\s+/g, "[")
+              .replace(/\s+\]/g, "]")
+              // normalize spaces around commas to single space after comma
+              .replace(/\s*,\s*/g, ",")
+          )
+          .filter((line) => line.length > 0)
+          .join("\n");
+      };
+      const checkIfTestsPassed = (
+        actualOutput: string,
+        expectedOutput: string
+      ) => {
+        const normalizedActual = normalizeOutput(actualOutput);
+        const normalizedExpected = normalizeOutput(expectedOutput);
+
+        return normalizedActual == normalizedExpected;
+      };
+
+
+        const triggerConfetti = () => {
+          confetti({
+            particleCount: 80,
+            spread: 250,
+            origin: { x: 0.2, y: 0.6 },
+          });
+      
+          confetti({
+            particleCount: 80,
+            spread: 250,
+            origin: { x: 0.8, y: 0.6 },
+          });
+        };
     const handleRunCode = async () => {
       setIsRunning(true);
       setOutput(null);
@@ -77,6 +120,19 @@ const SessionPage = () => {
       const result = await executeCode(selectedLanguage, code);
       setOutput(result);
       setIsRunning(false);
+      if (result.success) {
+        const expectedOutput = problemData?.expectedOutput[selectedLanguage];
+        const testsPassed = checkIfTestsPassed(result.output!, expectedOutput!);
+
+        if (testsPassed) {
+          triggerConfetti();
+          toast.success("All tests passed! Great job!");
+        } else {
+          toast.error("Tests failed. Check your output!");
+        }
+      } else {
+        toast.error("Code execution failed!");
+      }
     };
 
     const handleEndSession = () => {
